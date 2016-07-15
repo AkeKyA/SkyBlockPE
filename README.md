@@ -1,3 +1,6 @@
+#ABANDONED PROJECT
+#NO MORE SUPPORT ON THIS PLUGIN
+
 # SkyBlockPE
 SkyBlock ported to PocketMine, API 1.12.0 +
 
