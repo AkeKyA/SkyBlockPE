@@ -10,11 +10,11 @@ use pocketmine\math\Vector3;
 use pocketmine\block\Chest;
 use pocketmine\item\Item;
 use pocketmine\tile\Tile;
-use pocketmine\nbt\tag\Enum;
-use pocketmine\nbt\tag\String;
-use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\ListTag;
+use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\NBT;
-use pocketmine\nbt\tag\Compound;
 use pocketmine\block\Block;
 
 class ClaimSubCommand extends SubCommand{
@@ -93,11 +93,11 @@ class ClaimSubCommand extends SubCommand{
 				$position instanceof Position;
 				$chest = $position->getLevel()->getBlock(new Vector3(floor($position->getX()), 30 + (69 - 64), floor($position->getZ())));
 				$position->getLevel()->setBlock(new Vector3(floor($position->getX()), 30 + (69 - 64), floor($position->getZ())), new Block(Block::CHEST), true, true);
-				$nbt = new Compound("", [new Enum("Items", []),new String("id", Tile::CHEST),new Int("x", floor($position->getX())),new Int("y", floor($position->getY())),new Int("z", floor($position->getZ()))]);
+				$nbt = new CompoundTag("", [new ListTag("Items", []),new StringTag("id", Tile::CHEST),new IntTag("x", floor($position->getX())),new IntTag("y", floor($position->getY())),new IntTag("z", floor($position->getZ()))]);
 				$nbt->Items->setTagType(NBT::TAG_Compound);
 				$tile = Tile::createTile("Chest", $sender->getLevel()->getChunk(floor($position->getX()) >> 4, floor($position->getZ()) >> 4), $nbt);
 				
-				if(!($tile instanceof \pocketmine\tile\Chest)) continue;
+				if(!($tile instanceof \pocketmine\tile\Chest)) return false;
 				$tile->getInventory()->addItem(new Item(Item::ICE, 0, 2), new Item(Item::BUCKET, 10, 1), new Item(Item::MELON_SLICE, 0, 1), new Item(Item::CACTUS, 0, 1), new Item(Item::RED_MUSHROOM, 0, 1), new Item(Item::BROWN_MUSHROOM, 0, 1), new Item(Item::PUMPKIN_SEEDS, 0, 1), new Item(Item::SUGAR_CANE, 0, 1), new Item(Item::SIGN, 0, 1));
 				$sender->sendTip(TextFormat::GREEN . TextFormat::BOLD . "A new SkyBlock\n" . TextFormat::GOLD . "by thebigsmileXD");
 			}

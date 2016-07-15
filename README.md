@@ -1,12 +1,9 @@
-#ABANDONED PROJECT
-#NO MORE SUPPORT ON THIS PLUGIN
-
 # SkyBlockPE
-SkyBlock ported to PocketMine, API 1.12.0 +
+SkyBlock ported to PocketMine, API 2.0.0 + (PHP7)
 
 Please note that this is still in development.
 
-This plugin is an edit of [MyPlot](https://github.com/wiez/MyPlot) with a new generator and different commands.
+This plugin is an edit of [MyPlot](https://github.com/wiez/MyPlot) with a new generator and different commands, using MySQL
 
 ## Commands / Usage / Permissions
 
@@ -44,4 +41,4 @@ This plugin is a modification of [MyPlot](https://github.com/wiez/MyPlot) by [wi
 
 ## Notes
 
-This plugin was coded and is maintained by thebigsmileXD of the Imagical Corporation. This is not a plugin for everyone, this is a plugin for our intended use. Hopefully you find it useful too.
+This plugin was coded and is maintained by thebigsmileXD.

@@ -2,7 +2,7 @@ name: SkyBlock
 main: thebigsmileXD\SkyBlock\SkyBlock
 version: 1.0.2
 load: STARTUP
-api: 1.0.0
+api: 2.0.0
 author: thebigsmileXD Wies and Exxarion
 description: Plot and protection plugin
 softdepend: [EconomyAPI, PocketMoney]
