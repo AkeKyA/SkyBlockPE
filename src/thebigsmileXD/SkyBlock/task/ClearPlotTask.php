@@ -1,8 +1,8 @@
 <?php
 namespace MyPlot\task;
 
-use MyPlot\MyPlot;
-use MyPlot\Plot;
+use Skyblock\Skyblock;
+use Skyblock\Plot;
 use pocketmine\block\Block;
 use pocketmine\math\Vector3;
 use pocketmine\Player;
