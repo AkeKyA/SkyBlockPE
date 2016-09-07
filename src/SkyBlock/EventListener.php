@@ -105,14 +105,14 @@ class EventListener implements Listener
 		// if user was not previously tracked then save pos and return
 		if( ! $players_in_tracker && !is_null($plot)) {
 		$this->playerLocationTracker[$pname] = $plot;
-		$this->plugin->getServer()->dispatchCommand($player, "p info summary");
+		$this->plugin->getServer()->dispatchCommand($player, "is info summary");
 		return;
 		}
 		
 		// if user has moved
 		if( ( $plot->X != $this->playerLocationTracker[$pname]->X ) || ( $plot->Z != $this->playerLocationTracker[$pname]->Z ) ) {
 			$this->playerLocationTracker[$pname] = $plot;
-		$this->plugin->getServer()->dispatchCommand($player, "p info summary");
+		$this->plugin->getServer()->dispatchCommand($player, "is info summary");
 		return;
 		}
 	}

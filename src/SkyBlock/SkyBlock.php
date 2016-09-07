@@ -396,7 +396,7 @@ class SkyBlock extends PluginBase implements Listener
 		$this->saveDefaultConfig();
 		$this->reloadConfig();
 		$this->getLogger()->info(TextFormat::GREEN."Loading the Plot Framework!");
-		$this->getLogger()->warning(TextFormat::YELLOW."It seems that you are running the development build of SkyBlock! Thats cool, but it CAN be very, very buggy! Just be careful when using this plugin and report any issues to".TextFormat::GOLD." http://github.com/wiez/SkyBlock/issues");
+		$this->getLogger()->warning(TextFormat::YELLOW."It seems that you are running the development build of SkyBlock! Thats cool, but it CAN be very, very buggy! Just be careful when using this plugin and report any issues to".TextFormat::GOLD." http://github.com/thebigsmileXD/SkyBlockPE/issues");
 		$this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
 		$this->getServer()->getCommandMap()->register(Commands::class, new Commands($this));
 

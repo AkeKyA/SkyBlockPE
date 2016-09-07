@@ -31,8 +31,8 @@ class Commands extends PluginCommand
 	private $commandObjects = [];
 
 	public function __construct(SkyBlock $plugin) {
-		parent::__construct("plot", $plugin);
-		$this->setAliases(["p"]);
+		parent::__construct("island", $plugin);
+		$this->setAliases(["is"]);
 		$this->setPermission("skyblock.command");
 		$this->setDescription("Claim and manage your plots");
 

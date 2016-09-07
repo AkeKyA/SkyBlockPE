@@ -8,8 +8,7 @@ use pocketmine\utils\TextFormat;
 class GenerateSubCommand extends SubCommand
 {
 	public function canUse(CommandSender $sender) {
-	return false;
-		return $sender->hasPermission("skyblock.command.generate");
+		return $sender->hasPermission("skyblock.admin.generate");
 	}
 
 	public function getUsage() {

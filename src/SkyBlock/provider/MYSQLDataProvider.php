@@ -4,7 +4,7 @@ namespace SkyBlock\provider;
 
 use SkyBlock\SkyBlock;
 use SkyBlock\Plot;
-use Mysqli;
+use mysqli;
 
 class MYSQLDataProvider extends DataProvider {
 	/** @var \mysqli */

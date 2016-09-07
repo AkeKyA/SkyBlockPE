@@ -20,7 +20,7 @@ class HomeSubCommand extends SubCommand
 	}
 
 	public function getDescription() {
-		return "Teleport to your plot home. Use /is list for home numbers";
+		return "Teleport to your island home. Use /is list for home numbers";
 	}
 
 	public function getAliases() {
@@ -37,11 +37,11 @@ class HomeSubCommand extends SubCommand
 		}
 		$plots = $this->getPlugin()->getProvider()->getPlotsByOwner($sender->getName());
 		if (empty($plots)) {
-			$sender->sendMessage(TextFormat::RED . "You don't have any plots");
+			$sender->sendMessage(TextFormat::RED . "You don't have any islands");
 			return true;
 		}
 		if (!isset($plots[$plotNumber - 1])) {
-			$sender->sendMessage(TextFormat::RED . "You don't have a plot with home number $plotNumber");
+			$sender->sendMessage(TextFormat::RED . "You don't have a island with home number $plotNumber");
 			return true;
 		}
 		$player = $this->getPlugin()->getServer()->getPlayer($sender->getName());
@@ -49,7 +49,7 @@ class HomeSubCommand extends SubCommand
 		if ($this->getPlugin()->teleportPlayerToPlot($player, $plot)) {
 			$sender->sendMessage(TextFormat::GREEN . "Teleported to " . TextFormat::WHITE . $plot);
 		} else {
-			$sender->sendMessage(TextFormat::GREEN . "Could not teleport because plot world " . $plot->levelName . " is not loaded");
+			$sender->sendMessage(TextFormat::GREEN . "Could not teleport because SkyBlock world " . $plot->levelName . " is not loaded");
 		}
 		return true;
 	}

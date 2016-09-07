@@ -21,9 +21,6 @@ permissions:
       skyblock.command.list:
         description: Gives the list command
         default: true
-      skyblock.command.generate:
-        description: Gives the generate command
-        default: op
       skyblock.command.addhelper:
         description: Gives the addhelper command
         default: true
@@ -60,6 +57,9 @@ permissions:
         default: op
       skyblock.admin.dispose:
         description: Allow dispose command on every plot
+        default: op
+      skyblock.admin.generate:
+        description: Allow to generate a new world
         default: op
       skyblock.admin.reset:
         description: Allow reset command on every plot
