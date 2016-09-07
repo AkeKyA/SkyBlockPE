@@ -1,4 +1,5 @@
 # SkyBlockPE
+# Hello fellas, just a small update: i'll update the base code and the generator today. After that you should be able to spawn on your island. nice, isn't it?
 SkyBlock ported to PocketMine, API 2.0.0 + (PHP7)
 
 Please note that this is still in development.
