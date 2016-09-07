@@ -1,15 +1,15 @@
 name: SkyBlock
-main: thebigsmileXD\SkyBlock\SkyBlock
+main: SkyBlock\SkyBlock
 version: 1.0.2
 load: STARTUP
 api: 2.0.0
-author: thebigsmileXD Wies and Exxarion
+author: thebigsmileXD mwvent Wies and Exxarion
 description: Plot and protection plugin
 softdepend: [EconomyAPI, PocketMoney]
 
 permissions:
   skyblock.command:
-    description: Allows users to use myplot features
+    description: Allows users to use skyblock features
     default: true
     children:
       skyblock.command.claim:
