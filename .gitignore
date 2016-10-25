@@ -49,3 +49,4 @@ Temporary Items
 *.prefs
 .buildpath
 .project
+config.yml
