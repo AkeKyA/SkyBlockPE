@@ -1,65 +1,94 @@
 <?php
+
+namespace SkyBlock;
+
 use pocketmine\math\Vector3;
 use pocketmine\level\ChunkManager;
+use pocketmine\block\Block;
+use pocketmine\level\generator\populator\Populator;
+use pocketmine\utils\Random;
+use pocketmine\level\generator\Generator;
 
-abstract class SkyBlockStructure{
+class SkyBlockStructure extends Populator{
+	public $generator = null;
+	
+	public function __construct(Generator $gen){
+		$this->generator = $gen;
+	}
 
 	public static function placeObject(ChunkManager $level, Vector3 $vec){
+		$vec->subtract(4, 0, 4);
 		for($x = 4; $x < 11; $x++){
 			for($z = 4; $z < 11; $z++){
-				$level->setBlockIdAt($x, 68, $z, Block::GRASS);
+				$level->setBlockIdAt($vec->x + $x, 68, $vec->z + $z, Block::GRASS);
 			}
 		}
 		for($x = 5; $x < 10; $x++){
 			for($z = 5; $z < 10; $z++){
-				$level->setBlockIdAt($x, 67, $z, Block::DIRT);
-				$level->setBlockIdAt($x, 72, $z, Block::LEAVES); // 72
+				$level->setBlockIdAt($vec->x + $x, 67, $vec->z + $z, Block::DIRT);
+				$level->setBlockIdAt($vec->x + $x, 72, $vec->z + $z, Block::LEAVES); // 72
 			}
 		}
 		for($x = 6; $x < 9; $x++){
 			for($z = 6; $z < 9; $z++){
-				$level->setBlockIdAt($x, 73, $z, Block::LEAVES); // 73
-				$level->setBlockIdAt($x, 66, $z, Block::DIRT); // 66
+				$level->setBlockIdAt($vec->x + $x, 73, $vec->z + $z, Block::LEAVES); // 73
+				$level->setBlockIdAt($vec->x + $x, 66, $vec->z + $z, Block::DIRT); // 66
 			}
 		}
-		$level->setBlockIdAt(7, 64, 7, Block::BEDROCK); // 0
-		$level->setBlockIdAt(7, 65, 7, Block::SAND); // 1
-		$level->setBlockIdAt(7, 66, 7, Block::SAND); // 2
-		$level->setBlockIdAt(7, 67, 7, Block::SAND); // 3
-		$level->setBlockIdAt(7, 69, 7, Block::LOG); // 5
-		$level->setBlockIdAt(7, 70, 7, Block::LOG); // 6
-		$level->setBlockIdAt(7, 71, 7, Block::LOG); // 7
-		$level->setBlockIdAt(7, 72, 7, Block::LOG); // 8
-		$level->setBlockIdAt(7, 73, 7, Block::LOG); // 9
-		$level->setBlockIdAt(4, 68, 4, Block::AIR); // 68
-		$level->setBlockIdAt(4, 68, 10, Block::AIR);
-		$level->setBlockIdAt(10, 68, 4, Block::AIR);
-		$level->setBlockIdAt(10, 68, 10, Block::AIR);
-		$level->setBlockIdAt(5, 72, 5, Block::AIR); // 72
-		$level->setBlockIdAt(5, 72, 9, Block::AIR);
-		$level->setBlockIdAt(9, 72, 5, Block::AIR);
-		$level->setBlockIdAt(9, 72, 9, Block::AIR);
-		$level->setBlockIdAt(5, 73, 7, Block::LEAVES); // 73
-		$level->setBlockIdAt(7, 73, 5, Block::LEAVES);
-		$level->setBlockIdAt(9, 73, 7, Block::LEAVES);
-		$level->setBlockIdAt(7, 73, 9, Block::LEAVES);
-		$level->setBlockIdAt(7, 74, 6, Block::LEAVES); // 74
-		$level->setBlockIdAt(6, 74, 7, Block::LEAVES);
-		$level->setBlockIdAt(8, 74, 7, Block::LEAVES);
-		$level->setBlockIdAt(7, 74, 8, Block::LEAVES);
-		$level->setBlockIdAt(7, 75, 7, Block::LEAVES); // 75
-		                                              // $level->setBlockIdAt(7,69, 8, Block::CHEST);
-		$level->setBlockIdAt(7, 65, 8, Block::DIRT); // 65
-		$level->setBlockIdAt(8, 65, 7, Block::DIRT);
-		$level->setBlockIdAt(7, 65, 6, Block::DIRT);
-		$level->setBlockIdAt(6, 65, 7, Block::DIRT);
-		$level->setBlockIdAt(5, 66, 7, Block::DIRT); // 66
-		$level->setBlockIdAt(7, 66, 5, Block::DIRT);
-		$level->setBlockIdAt(9, 66, 7, Block::DIRT);
-		$level->setBlockIdAt(7, 66, 9, Block::DIRT);
-		$level->setBlockIdAt(4, 67, 7, Block::DIRT); // 67
-		$level->setBlockIdAt(7, 67, 4, Block::DIRT);
-		$level->setBlockIdAt(7, 67, 10, Block::DIRT);
-		$level->setBlockIdAt(10, 67, 7, Block::DIRT);
+		$level->setBlockIdAt($vec->x + 7, 64, $vec->z + 7, Block::BEDROCK); // 0
+		$level->setBlockIdAt($vec->x + 7, 65, $vec->z + 7, Block::SAND); // 1
+		$level->setBlockIdAt($vec->x + 7, 66, $vec->z + 7, Block::SAND); // 2
+		$level->setBlockIdAt($vec->x + 7, 67, $vec->z + 7, Block::SAND); // 3
+		$level->setBlockIdAt($vec->x + 7, 69, $vec->z + 7, Block::LOG); // 5
+		$level->setBlockIdAt($vec->x + 7, 70, $vec->z + 7, Block::LOG); // 6
+		$level->setBlockIdAt($vec->x + 7, 71, $vec->z + 7, Block::LOG); // 7
+		$level->setBlockIdAt($vec->x + 7, 72, $vec->z + 7, Block::LOG); // 8
+		$level->setBlockIdAt($vec->x + 7, 73, $vec->z + 7, Block::LOG); // 9
+		$level->setBlockIdAt($vec->x + 4, 68, $vec->z + 4, Block::AIR); // 68
+		$level->setBlockIdAt($vec->x + 4, 68, $vec->z + 10, Block::AIR);
+		$level->setBlockIdAt($vec->x + 10, 68, $vec->z + 4, Block::AIR);
+		$level->setBlockIdAt($vec->x + 10, 68, $vec->z + 10, Block::AIR);
+		$level->setBlockIdAt($vec->x + 5, 72, $vec->z + 5, Block::AIR); // 72
+		$level->setBlockIdAt($vec->x + 5, 72, $vec->z + 9, Block::AIR);
+		$level->setBlockIdAt($vec->x + 9, 72, $vec->z + 5, Block::AIR);
+		$level->setBlockIdAt($vec->x + 9, 72, $vec->z + 9, Block::AIR);
+		$level->setBlockIdAt($vec->x + 5, 73, $vec->z + 7, Block::LEAVES); // 73
+		$level->setBlockIdAt($vec->x + 7, 73, $vec->z + 5, Block::LEAVES);
+		$level->setBlockIdAt($vec->x + 9, 73, $vec->z + 7, Block::LEAVES);
+		$level->setBlockIdAt($vec->x + 7, 73, $vec->z + 9, Block::LEAVES);
+		$level->setBlockIdAt($vec->x + 7, 74, $vec->z + 6, Block::LEAVES); // 74
+		$level->setBlockIdAt($vec->x + 6, 74, $vec->z + 7, Block::LEAVES);
+		$level->setBlockIdAt($vec->x + 8, 74, $vec->z + 7, Block::LEAVES);
+		$level->setBlockIdAt($vec->x + 7, 74, $vec->z + 8, Block::LEAVES);
+		$level->setBlockIdAt($vec->x + 7, 75, $vec->z + 7, Block::LEAVES); // 75
+		                                                                   // $level->setBlockIdAt($vec->x + 7,69, 8, Block::CHEST);
+		$level->setBlockIdAt($vec->x + 7, 65, $vec->z + 8, Block::DIRT); // 65
+		$level->setBlockIdAt($vec->x + 8, 65, $vec->z + 7, Block::DIRT);
+		$level->setBlockIdAt($vec->x + 7, 65, $vec->z + 6, Block::DIRT);
+		$level->setBlockIdAt($vec->x + 6, 65, $vec->z + 7, Block::DIRT);
+		$level->setBlockIdAt($vec->x + 5, 66, $vec->z + 7, Block::DIRT); // 66
+		$level->setBlockIdAt($vec->x + 7, 66, $vec->z + 5, Block::DIRT);
+		$level->setBlockIdAt($vec->x + 9, 66, $vec->z + 7, Block::DIRT);
+		$level->setBlockIdAt($vec->x + 7, 66, $vec->z + 9, Block::DIRT);
+		$level->setBlockIdAt($vec->x + 4, 67, $vec->z + 7, Block::DIRT); // 67
+		$level->setBlockIdAt($vec->x + 7, 67, $vec->z + 4, Block::DIRT);
+		$level->setBlockIdAt($vec->x + 7, 67, $vec->z + 10, Block::DIRT);
+		$level->setBlockIdAt($vec->x + 10, 67, $vec->z + 7, Block::DIRT);
+		
+		$level->setBlockIdAt($vec->x, $vec->y, $vec->z, 15);
+		print 'PLEASE4'.PHP_EOL;
+	}
+	
+	public function populate(ChunkManager $level, $chunkX, $chunkZ, Random $random){
+		$shape = $this->generator->getShape($chunkX << 4, $chunkZ << 4);
+		for($Z = 0; $Z < 16; ++$Z){ // sorry for second loop, but new chunks override the old one;
+			for($X = 0; $X < 16; ++$X){
+				$type = $shape[($Z << 4) | $X];
+				print $type . '|';
+				if($type === SkyBlockGenerator::ISLAND){
+					self::placeObject($level, new Vector3($chunkX << 4 + $X, 0, $chunkZ << 4 + $Z));
+				}
+			}
+		}
 	}
 }

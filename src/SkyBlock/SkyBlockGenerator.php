@@ -9,10 +9,11 @@ use pocketmine\math\Vector3;
 use pocketmine\utils\Random;
 use pocketmine\level\generator\biome\Biome;
 use pocketmine\level\Level;
+use pocketmine\level\format\FullChunk;
 
 class SkyBlockGenerator extends Generator{
 	/** @var Level */
-	private $level;
+	public $level;
 	
 	/** @var string[] */
 	private $settings;
@@ -94,6 +95,7 @@ class SkyBlockGenerator extends Generator{
 
 	public function init(ChunkManager $level, Random $random){
 		$this->level = $level;
+		$this->random = $random;
 	}
 
 	public function generateChunk($chunkX, $chunkZ){
@@ -119,22 +121,16 @@ class SkyBlockGenerator extends Generator{
 		
 		for($Z = 0; $Z < 16; ++$Z){
 			for($X = 0; $X < 16; ++$X){
+				$chunk instanceof FullChunk;
 				$chunk->setBiomeId($X, $Z, 1);
 				$chunk->setBiomeColor($X, $Z, $R, $G, $B);
-				
-				// $chunk->setBlock($X, 0, $Z, $bottomBlockId, $bottomBlockMeta);
-				// for ($y = 1; $y < $groundHeight; ++$y) {
-				// $chunk->setBlock($X, $y, $Z, $plotFillBlockId, $plotFillBlockMeta);
-				// }
 				$type = $shape[($Z << 4) | $X];
 				if($type === self::ISLAND){
-					\SkyBlockStructure::placeObject($this->level, new Vector3($chunkX * 16 + $X, 0, $chunkZ * 16 + $Z));
+					$this->level->setBlockIdAt($chunk->getX() * 16 + $X, 0, $chunk->getZ() * 16 + $Z, 1);
 				}
 				elseif($type === self::PLOT){ // PLOT
-					                              // $chunk->setBlock($X, $groundHeight, $Z, $plotFloorBlockId, $plotFloorBlockMeta);
 				}
 				elseif($type === self::ROAD){ // road
-					                              // $chunk->setBlock($X, $groundHeight, $Z, $roadBlockId, $roadBlockMeta);
 				}
 				else{ // border
 					$chunk->setBlock($X, $groundHeight, $Z, $roadBlockId, $roadBlockMeta);
@@ -145,6 +141,7 @@ class SkyBlockGenerator extends Generator{
 		$chunk->setX($chunkX);
 		$chunk->setZ($chunkZ);
 		$this->level->setChunk($chunkX, $chunkZ, $chunk);
+		$this->populateChunk($chunkX, $chunkZ);
 	}
 
 	public function getShape($x, $z){
@@ -199,11 +196,11 @@ class SkyBlockGenerator extends Generator{
 				else{
 					$typeX = self::ROAD;
 				}
-				if($typeX === $typeZ){
-					$type = $typeX;
+				if($typeX === self::ISLAND || $typeZ === self::ISLAND){
+					$type = self::ISLAND;
 				}
-				elseif($typeX === self::ISLAND || $typeZ === self::ISLAND){
-					$type = self::PLOT;
+				elseif($typeX === $typeZ){
+					$type = $typeX;
 				}
 				elseif($typeX === self::PLOT){
 					$type = $typeZ;
@@ -220,7 +217,10 @@ class SkyBlockGenerator extends Generator{
 		return $shape;
 	}
 
-	public function populateChunk($chunkX, $chunkZ){}
+	public function populateChunk($chunkX, $chunkZ){
+		$island = new SkyBlockStructure($this);
+		$island->populate($this->level, $chunkX, $chunkZ, $this->random);
+	}
 
 	public function getSpawn(){
 		return new Vector3(0, $this->groundHeight, 0);
