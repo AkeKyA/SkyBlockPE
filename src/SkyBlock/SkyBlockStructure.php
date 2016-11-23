@@ -8,16 +8,25 @@ use pocketmine\block\Block;
 use pocketmine\level\generator\populator\Populator;
 use pocketmine\utils\Random;
 use pocketmine\level\generator\Generator;
+use pocketmine\level\format\Chunk;
 
 class SkyBlockStructure extends Populator{
 	public $generator = null;
-	
+
 	public function __construct(Generator $gen){
 		$this->generator = $gen;
 	}
 
-	public static function placeObject(ChunkManager $level, Vector3 $vec){
-		$vec->subtract(4, 0, 4);
+	/**
+	 *
+	 * @param ChunkManager $level 
+	 * @param Chunk $chunk 
+	 * @param int $Xofchunk 
+	 * @param int $Zofchunk 
+	 */
+	public static function placeObject(ChunkManager $level, $chunk, $Xofchunk, $Zofchunk){
+		$vec = new Vector3($chunk->getX() * 16 + $Xofchunk, 0, $chunk->getZ() * 16 + $Zofchunk);
+		$vec = $vec->subtract(7, 0, 7); // fix offset
 		for($x = 4; $x < 11; $x++){
 			for($z = 4; $z < 11; $z++){
 				$level->setBlockIdAt($vec->x + $x, 68, $vec->z + $z, Block::GRASS);
@@ -61,7 +70,6 @@ class SkyBlockStructure extends Populator{
 		$level->setBlockIdAt($vec->x + 8, 74, $vec->z + 7, Block::LEAVES);
 		$level->setBlockIdAt($vec->x + 7, 74, $vec->z + 8, Block::LEAVES);
 		$level->setBlockIdAt($vec->x + 7, 75, $vec->z + 7, Block::LEAVES); // 75
-		                                                                   // $level->setBlockIdAt($vec->x + 7,69, 8, Block::CHEST);
 		$level->setBlockIdAt($vec->x + 7, 65, $vec->z + 8, Block::DIRT); // 65
 		$level->setBlockIdAt($vec->x + 8, 65, $vec->z + 7, Block::DIRT);
 		$level->setBlockIdAt($vec->x + 7, 65, $vec->z + 6, Block::DIRT);
@@ -74,19 +82,16 @@ class SkyBlockStructure extends Populator{
 		$level->setBlockIdAt($vec->x + 7, 67, $vec->z + 4, Block::DIRT);
 		$level->setBlockIdAt($vec->x + 7, 67, $vec->z + 10, Block::DIRT);
 		$level->setBlockIdAt($vec->x + 10, 67, $vec->z + 7, Block::DIRT);
-		
-		$level->setBlockIdAt($vec->x, $vec->y, $vec->z, 15);
-		print 'PLEASE4'.PHP_EOL;
 	}
-	
+
 	public function populate(ChunkManager $level, $chunkX, $chunkZ, Random $random){
+		$chunk = $level->getChunk($chunkX, $chunkZ);
 		$shape = $this->generator->getShape($chunkX << 4, $chunkZ << 4);
-		for($Z = 0; $Z < 16; ++$Z){ // sorry for second loop, but new chunks override the old one;
+		for($Z = 0; $Z < 16; ++$Z){
 			for($X = 0; $X < 16; ++$X){
 				$type = $shape[($Z << 4) | $X];
-				print $type . '|';
 				if($type === SkyBlockGenerator::ISLAND){
-					self::placeObject($level, new Vector3($chunkX << 4 + $X, 0, $chunkZ << 4 + $Z));
+					self::placeObject($level, $chunk, $X, $Z);
 				}
 			}
 		}

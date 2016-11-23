@@ -10,6 +10,7 @@ mysqldb: ""
 UseEconomy: false 
 #Use an economy plugin to add prices to things like claiming (Below)
 PlotCacheSize: 100
+PlotSize: 32
 
 DefaultWorld:
   MaxPlotsPerPlayer: 5 
@@ -22,6 +23,6 @@ DefaultWorld:
   #How much it costs to dispose a plot (Economy must be set to 'true')
   ResetPrice: 0 
   #How much it costs to reset a plot (Economy must be set to 'true)
-  Chunks: 8
+  PlotSize: 32
   #How large an island is, in chunks (16 blocks = 1 chunk)
   

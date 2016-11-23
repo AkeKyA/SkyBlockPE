@@ -164,13 +164,10 @@ class ClaimSubCommand extends SubCommand{
 		if($this->getPlugin()->getProvider()->savePlot($plot)){
 			if($sender instanceof Player){
 				$sender->sendMessage(TextFormat::GREEN . "You are now the owner of " . TextFormat::WHITE . $plot);
-				// chest
 				$position = $this->getPlugin()->getPlotPosition($plot);
-				// debug
-				// $position = $player->getPosition();
 				$position instanceof Position;
 				
-				$position->add(floor($this->getPlugin()->getLevelSettings($plot->levelName)->plotSize) / 2, 70, floor($this->getPlugin()->getLevelSettings($plot->levelName)->plotSize) / 2 + 1);
+				$position = $position->add(floor($this->getPlugin()->getLevelSettings($plot->levelName)->plotSize / 2), 69, floor($this->getPlugin()->getLevelSettings($plot->levelName)->plotSize / 2) + 1);
 				$position->getLevel()->setBlock($position, new Block(Block::CHEST), true, true);
 				$nbt = new CompoundTag("", [new ListTag("Items", []), new StringTag("id", Tile::CHEST), new IntTag("x", floor($position->getX())), new IntTag("y", floor($position->getY())), new IntTag("z", floor($position->getZ()))]);
 				$nbt->Items->setTagType(NBT::TAG_Compound);
@@ -178,7 +175,7 @@ class ClaimSubCommand extends SubCommand{
 				
 				if(!($tile instanceof \pocketmine\tile\Chest)) return false;
 				$tile->getInventory()->addItem(new Item(Item::ICE, 0, 2), new Item(Item::BUCKET, 10, 1), new Item(Item::MELON_SLICE, 0, 1), new Item(Item::CACTUS, 0, 1), new Item(Item::RED_MUSHROOM, 0, 1), new Item(Item::BROWN_MUSHROOM, 0, 1), new Item(Item::PUMPKIN_SEEDS, 0, 1), new Item(Item::SUGAR_CANE, 0, 1), new Item(Item::SIGN, 0, 1));
-				$sender->sendTip(TextFormat::GREEN . TextFormat::BOLD . "A new SkyBlock\n" . TextFormat::GOLD . "by XenialDan");
+				$sender->sendTip(TextFormat::GREEN . TextFormat::BOLD . "A new SkyBlock\n" . TextFormat::GOLD . "A plugin by XenialDan");
 			}
 		}
 		else{

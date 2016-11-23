@@ -45,7 +45,7 @@ class SkyBlockGenerator extends Generator{
 		$this->plotFillBlock = $this->parseBlock($settings, "PlotFillBlock", new Block(3));
 		$this->bottomBlock = $this->parseBlock($settings, "BottomBlock", new Block(7));
 		$this->roadWidth = $this->parseNumber($settings, "RoadWidth", 7);
-		$this->plotSize = $this->parseNumber($settings, "PlotSize", 22);
+		$this->plotSize = $this->parseNumber($settings, "PlotSize", 32);
 		$this->groundHeight = $this->parseNumber($settings, "GroundHeight", 32);
 		
 		$this->settings = [];
@@ -124,18 +124,6 @@ class SkyBlockGenerator extends Generator{
 				$chunk instanceof FullChunk;
 				$chunk->setBiomeId($X, $Z, 1);
 				$chunk->setBiomeColor($X, $Z, $R, $G, $B);
-				$type = $shape[($Z << 4) | $X];
-				if($type === self::ISLAND){
-					$this->level->setBlockIdAt($chunk->getX() * 16 + $X, 0, $chunk->getZ() * 16 + $Z, 1);
-				}
-				elseif($type === self::PLOT){ // PLOT
-				}
-				elseif($type === self::ROAD){ // road
-				}
-				else{ // border
-					$chunk->setBlock($X, $groundHeight, $Z, $roadBlockId, $roadBlockMeta);
-					$chunk->setBlock($X, $groundHeight + 1, $Z, $wallBlockId, $wallBlockMeta);
-				}
 			}
 		}
 		$chunk->setX($chunkX);
@@ -167,39 +155,22 @@ class SkyBlockGenerator extends Generator{
 			if($Z === $totalSize){
 				$Z = 0;
 			}
-			if($Z == floor($this->plotSize / 2)){
-				$typeZ = self::ISLAND;
-			}
-			elseif($Z < $this->plotSize){
+			if($Z < $this->plotSize){
 				$typeZ = self::PLOT;
-			}
-			elseif($Z === $this->plotSize or $Z === ($totalSize - 1)){
-				$typeZ = self::WALL;
 			}
 			else{
 				$typeZ = self::ROAD;
 			}
 			
 			for($x = 0, $X = $startX; $x < 16; $x++, $X++){
-				if($X === $totalSize){
-					$X = 0;
-				}
-				if($X == floor($this->plotSize / 2)){
-					$typeX = self::ISLAND;
-				}
-				elseif($X < $this->plotSize){
+				if($X === $totalSize) $X = 0;
+				if($X < $this->plotSize){
 					$typeX = self::PLOT;
-				}
-				elseif($X === $this->plotSize or $X === ($totalSize - 1)){
-					$typeX = self::WALL;
 				}
 				else{
 					$typeX = self::ROAD;
 				}
-				if($typeX === self::ISLAND || $typeZ === self::ISLAND){
-					$type = self::ISLAND;
-				}
-				elseif($typeX === $typeZ){
+				if($typeX === $typeZ){
 					$type = $typeX;
 				}
 				elseif($typeX === self::PLOT){
@@ -210,6 +181,9 @@ class SkyBlockGenerator extends Generator{
 				}
 				else{
 					$type = self::ROAD;
+				}
+				if($X == floor($this->plotSize / 2) && $Z == floor($this->plotSize / 2)){
+					$type = self::ISLAND;
 				}
 				$shape[($z << 4) | $x] = $type;
 			}
