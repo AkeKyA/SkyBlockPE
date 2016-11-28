@@ -165,13 +165,14 @@ class ClaimSubCommand extends SubCommand{
 			if($sender instanceof Player){
 				$sender->sendMessage(TextFormat::GREEN . "You are now the owner of " . TextFormat::WHITE . $plot);
 				$position = $this->getPlugin()->getPlotPosition($plot);
-				$position instanceof Position;
+				$position = $player->getPosition();
+				if(!$position instanceof Position) return;
 				
-				$position = $position->add(floor($this->getPlugin()->getLevelSettings($plot->levelName)->plotSize / 2), 69, floor($this->getPlugin()->getLevelSettings($plot->levelName)->plotSize / 2) + 1);
+				// $position = $position->add(floor($this->getPlugin()->getLevelSettings($plot->levelName)->plotSize / 2), 69, floor($this->getPlugin()->getLevelSettings($plot->levelName)->plotSize / 2) + 1);
 				$position->getLevel()->setBlock($position, new Block(Block::CHEST), true, true);
-				$nbt = new CompoundTag("", [new ListTag("Items", []), new StringTag("id", Tile::CHEST), new IntTag("x", floor($position->getX())), new IntTag("y", floor($position->getY())), new IntTag("z", floor($position->getZ()))]);
+				$nbt = new CompoundTag("", [new ListTag("Items", []), new StringTag("id", Tile::CHEST), new IntTag("x", $position->getFloorX()), new IntTag("y", $position->getFloorY()), new IntTag("z", $position->getFloorZ())]);
 				$nbt->Items->setTagType(NBT::TAG_Compound);
-				$tile = Tile::createTile("Chest", $sender->getLevel()->getChunk(floor($position->getX()) >> 4, floor($position->getZ()) >> 4), $nbt);
+				$tile = Tile::createTile("Chest", $sender->getLevel()->getChunk($position->getFloorX() >> 4, $position->getFloorZ() >> 4), $nbt);
 				
 				if(!($tile instanceof \pocketmine\tile\Chest)) return false;
 				$tile->getInventory()->addItem(new Item(Item::ICE, 0, 2), new Item(Item::BUCKET, 10, 1), new Item(Item::MELON_SLICE, 0, 1), new Item(Item::CACTUS, 0, 1), new Item(Item::RED_MUSHROOM, 0, 1), new Item(Item::BROWN_MUSHROOM, 0, 1), new Item(Item::PUMPKIN_SEEDS, 0, 1), new Item(Item::SUGAR_CANE, 0, 1), new Item(Item::SIGN, 0, 1));

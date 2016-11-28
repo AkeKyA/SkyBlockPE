@@ -117,17 +117,15 @@ class EventListener implements Listener
 		}
 	}
 
-	public function onBlockUpdate(BlockUpdateEvent $event) {
+	public function onBlockUpdate(BlockUpdateEvent $event){
 		/*
 		 * Disables water and lava flow as a temporary solution.
 		 */
-
 		$levelName = $event->getBlock()->getLevel()->getName();
-		if ($this->plugin->isLevelLoaded($levelName)) {
-			$event->setCancelled(true);
-		}
-		if ($event->getBlock() instanceof Water or $event->getBlock() instanceof Lava) {
-			$event->setCancelled(true);
+		if($this->plugin->isLevelLoaded($levelName)){
+			if(($event->getBlock() instanceof Water or $event->getBlock() instanceof Lava) && $event->getBlock()){
+				#$event->setCancelled();
+			}
 		}
 	}
 

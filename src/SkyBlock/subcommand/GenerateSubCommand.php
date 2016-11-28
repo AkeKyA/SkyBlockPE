@@ -24,7 +24,7 @@ class GenerateSubCommand extends SubCommand
 	}
 
 	public function getAliases() {
-		return ["gen"];
+		return ["gen","new"];
 	}
 
 	public function execute(CommandSender $sender, array $args) {
